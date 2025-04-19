@@ -1,59 +1,23 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <title>
-       abbrevtions
-    </title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
 <body>
 
-    <h1>Abbreviation</h1>
+    <h2>JavaScript Statements</h2>
+    <p>A <b>JavaScript program</b> is a list of <b>statements</b> to be executed by a computer.</p>
 
-    <p>It is used to mark up an abbreviation or acronym:</p>
+    <p id="demo"></p>
 
-    <p><abbr title="codingal">cdgl</abbr>was found in 2020.</p>
+    <script>
+        var x, y, z;    // Statement 1
+        x = 5;          // Statement 2
+        y = 6;          // Statement 3
+        z = x + y;      // Statement 4
 
-    <h1>Blockquotes</h1>
-
-    <p>It is used to present content from another source:</p>
-
-    <blockquote class="blockquote">
-
-        <p>Codingal is on a mission to inspire all the school kids</p>
-
-        <footer class="blockquote-footer">From Codingal</footer>
-
-    </blockquote>
-
-    <h1>Multiple Code Lines</h1>
-
-    <p>For multiple lines of code, use the pre element:</p>
-
-    <pre>
-
-codingal is on
-
-mission to
-
-inspire all the school
-
-kids
-
-</pre>
-
-    <h1>Keyboard Inputs</h1>
-
-    <p>To indicate input that is typically entered via the keyboard, use the kbd element:</p>
-
-    <p>Use <kbd>ctrl + p</kbd>to open the print dialog box.</p>
-
-    <input type="color" name="" id="">
-
+        document.getElementById("demo").innerHTML =
+            "The value of z is " + z + ".";
+    </script>
 
 </body>
+
+</html>
