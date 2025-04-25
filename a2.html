@@ -3,15 +3,18 @@
 
 <body>
 
-    <h1>JavaScript Variables</h1>
-    <p>Sum of two Numbers</p>
-    <p id="result"></p>
+    <p>A function can access variables defined inside the function:</p>
+    <button type="button" onclick="myFunction()">click me if u want 1 billion money</button>
+    <p id="demo"></p>
+   
 
     <script>
-        var num1 = 5;
-        var num2 = 6;
-        var sum = num1 + num2;
-        document.getElementById("result").innerHTML = "The total sum is: " + sum;
+        var b = 5;
+        function myFunction() {
+            var a = 4;
+            document.getElementById("demo").innerHTML = b * a;
+        }
+        
     </script>
 
 </body>

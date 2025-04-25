@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html>
 
+<head>
+</head>
+
 <body>
 
-    <h1 id="myH"></h1>
-    <p id="myP"></p>
+    <button onclick="myfunction(5)">pls click me if u want free money</button>
 
     <script>
-        // My heading:
-        document.getElementById("myH").innerHTML = "amung sus ";
-        // My paragraph:
-        document.getElementById("myP").innerHTML = "i am amung sus ";
+        function myfunction(x, y) {
+            if (y === undefined) {
+                y = 5;
+            }
+            document.write(x * y);
+        }
     </script>
 
 </body>
