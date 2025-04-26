@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-</head>
-
 <body>
 
-    <button onclick="myfunction(5)">pls click me if u want free money</button>
+    <h2>lol take the L u trash boy/girl</h2>
+    <p>Basic Methods</p>
 
     <script>
-        function myfunction(x, y) {
-            if (y === undefined) {
-                y = 5;
-            }
-            document.write(x * y);
-        }
+        var str = "AmAzInG";
+        document.write(str.toUpperCase());
+        document.write("<br>");
+        document.write(str.toLowerCase());
+        document.write("<br>");
+        document.write(str.startsWith('i'));
+        document.write("<br>");
+
+        // Test Method -> returns true or false
+        var str1 = "lol take the L u trash boy/girl";
+        var patt = new RegExp("about");
+        var res = patt.test(str1);
+        document.write(res);
     </script>
 
 </body>

@@ -3,18 +3,17 @@
 
 <body>
 
-    <p>A function can access variables defined inside the function:</p>
-    <button type="button" onclick="myFunction()">click me if u want 1 billion money</button>
+    <h2>JavaScript For Loop</h2>
     <p id="demo"></p>
-   
 
     <script>
-        var b = 5;
-        function myFunction() {
-            var a = 4;
-            document.getElementById("demo").innerHTML = b * a;
+        var fruits = ["Apple", "Mango", "Grapes", "Watermelon", "Jack Fruit", "Banana"];
+        var text = "";
+        var i;
+        for (i = 0; i < fruits.length; i++) {
+            text += fruits[i] + "<br>";
         }
-        
+        document.getElementById("demo").innerHTML = text;
     </script>
 
 </body>
