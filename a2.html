@@ -3,17 +3,22 @@
 
 <body>
 
-    <h2>JavaScript For Loop</h2>
-    <p id="demo"></p>
+    <p>Finding the largest number with help of Argument Objects</p>
+    <p id="result"></p>
 
     <script>
-        var fruits = ["Apple", "Mango", "Grapes", "Watermelon", "Jack Fruit", "Banana"];
-        var text = "";
-        var i;
-        for (i = 0; i < fruits.length; i++) {
-            text += fruits[i] + "<br>";
+        function findMax() {
+            var i;
+            var max = 0;
+            for (i = 0; i < arguments.length; i++) {
+                if (arguments[i] > max) {
+                    max = arguments[i];
+                }
+            }
+            return max;
         }
-        document.getElementById("demo").innerHTML = text;
+
+        document.getElementById("result").innerHTML = findMax(4, 5, 10);
     </script>
 
 </body>
