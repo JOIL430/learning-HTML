@@ -3,22 +3,22 @@
 
 <body>
 
-    <p>Finding the largest number with help of Argument Objects</p>
-    <p id="result"></p>
+    <h2>JavaScript Array Methods</h2>
+    <h2>join() and pop()</h2>
+    <p>The join() method joins array elements into a string and the pop() method removes the last element from an array.
+    </p>
+
+    <p id="myjoin"></p>
+    <p id="myfirstpop"></p>
+    <p id="mysecondpop"></p>
 
     <script>
-        function findMax() {
-            var i;
-            var max = 0;
-            for (i = 0; i < arguments.length; i++) {
-                if (arguments[i] > max) {
-                    max = arguments[i];
-                }
-            }
-            return max;
-        }
+        var fruits = ["Banana", "Orange", "Apple", "Mango"];
+        document.getElementById("myjoin").innerHTML = fruits.join(" ");
 
-        document.getElementById("result").innerHTML = findMax(4, 5, 10);
+        document.getElementById("myfirstpop").innerHTML = fruits;
+        fruits.pop();
+        document.getElementById("mysecondpop").innerHTML = fruits;
     </script>
 
 </body>
