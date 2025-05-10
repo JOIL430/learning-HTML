@@ -1,27 +1,29 @@
+<!DOCTYPE html>
 <html>
 
 <head>
-    <title>Who is owner of roblox
-
-    </title>
+    <title>Data types</title>
 </head>
 
 <body>
+    <h1>JavaScript Data types</h1>
+    <script>
+        var a = 8000;
+        var b = 10.3;
+        var d = null;
+        var e; // undefined variable
+        {
+            let a = 2;
+            // Here value of a is 2 but only within the block
 
-    <script type="text/javascript">
-        var value = Math.abs(-20);
-        document.write("Demo Test Value : " + value + "<br>");
+            const b = 8;
+        }
 
-        var value = Math.acos(-1);
-        document.write("Demo1 Test Value : " + value + "<br>");
-
-        var value = Math.asin(1);
-        document.write("Demo2 Test Value : " + value + "<br>");
-
-        var value = Math.atan(.5);
-        document.write("Demo3 Test Value : " + value + "<br>");
+        document.write("a and b are equal : " + (a == b));
+        document.write("<br>");
+        document.write("The value of d is : " + d);
+        document.write("<br>");
     </script>
-
 </body>
 
 </html>

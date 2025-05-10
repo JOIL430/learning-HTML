@@ -1,70 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Form Validation</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-
-        input {
-            display: block;
-            margin: 10px 0;
-            padding: 8px;
-            width: 300px;
-        }
-
-        #message {
-            margin-top: 10px;
-            font-weight: bold;
-        }
-    </style>
-</head>
+<html>
 
 <body>
-
-    <h2>Registration Form</h2>
-
-    <form id="myForm">
-        <input type="email" id="email" placeholder="Enter your email" required>
-        <input type="password" id="password" placeholder="Enter your password" required>
-        <input type="number" id="age" placeholder="Enter your age" required>
-        <button type="submit">Submit</button>
-        <div id="message"></div>
-    </form>
+    <p>Click the button to get a time-based greeting:</p>
+    <button onclick="myFunction()">u yeah u dont click me or else</button>
+    <p id="hour"></p>
+    <p id="greet"></p>
 
     <script>
-        document.getElementById('myForm').addEventListener('submit', function (e) {
-            e.preventDefault();
+        function myFunction() {
+            var greeting;
+            var time = new Date().getHours();
 
-            const email = document.getElementById('email').value;
-            const pass = document.getElementById('password').value;
-            const age = document.getElementById('age').value;
-            const msgBox = document.getElementById('message');
-
-            let message = '';
-
-            if (email === '') {
-                message = 'Please enter an email.';
-                msgBox.style.color = 'red';
-            } else if (pass === '' || pass.length < 8) {
-                message = 'Password must be at least 8 characters.';
-                msgBox.style.color = 'red';
-            } else if (age === '' || age < 12 || age > 50) {
-                message = 'Age must be between 12 and 50.';
-                msgBox.style.color = 'red';
+            if (time < 10) {
+                greeting = "Good morning";
+            } else if (time < 20) {
+                greeting = "Good day";
             } else {
-                message = 'Form submitted successfully!';
-                msgBox.style.color = 'green';
+                greeting = "Good evening";
             }
 
-            msgBox.textContent = message;
-        });
+            document.getElementById("hour").innerHTML = "Current Hour is : " + time;
+            document.getElementById("greet").innerHTML = greeting;
+        }
     </script>
-
 </body>
 
 </html>
