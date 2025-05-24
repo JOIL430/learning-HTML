@@ -1,28 +1,23 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <title>Random Number Generator</title>
-    <script>
-        function generateRandomNumbers() {
-            let count = 0;
-            let output = "";
-
-            while (count < 5) {
-                let num = Math.floor(Math.random() * 100) + 1;
-                output += num + "<br>";
-                count++;
-            }
-
-            document.getElementById("randomNumbers").innerHTML = output;
-        }
-    </script>
-</head>
-
 <body>
-    <h2>Click the button to generate random numbers</h2>
-    <button onclick="generateRandomNumbers()">Generate</button>
-    <div id="randomNumbers" style="margin-top: 10px;"></div>
+    <h2>JavaScript Callbacks</h2>
+    <p>Do a calculation and then display the result.</p>
+    <p id="result2"></p>
+
+    <script>
+        function myDisplayer(value) {
+            document.getElementById("result2").innerHTML = value;
+        }
+
+        function myCalculator(num1, num2, myCallback) {
+            let sum = num1 + num2;
+            myCallback(sum);
+        }
+
+        myCalculator(5, 5, myDisplayer);
+    </script>
 </body>
 
 </html>

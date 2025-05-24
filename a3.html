@@ -1,28 +1,36 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <title>Data types</title>
-</head>
-
 <body>
-    <h1>JavaScript Data types</h1>
-    <script>
-        var a = 8000;
-        var b = 10.3;
-        var d = null;
-        var e; // undefined variable
-        {
-            let a = 2;
-            // Here value of a is 2 but only within the block
+    <h2>JavaScript Promise</h2>
+    <p id="demo"></p>
 
-            const b = 8;
+    <script>
+        function myDisplayer(some) {
+            document.getElementById("demo").innerHTML = some;
         }
 
-        document.write("a and b are equal : " + (a == b));
-        document.write("<br>");
-        document.write("The value of d is : " + d);
-        document.write("<br>");
+        function sum(a, b) {
+            var sum = a + b;
+            myDisplayer(sum);
+        }
+
+        let myPromise = new Promise(function (myResolve, myReject) {
+            // producing code may take some time
+            let x = 0; // some code (try to change x to 5)
+
+            if (x == 0) {
+                myResolve("OK"); // when successful
+            } else {
+                myReject("Error"); // when error
+            }
+        });
+
+        // consuming code - must wait for fulfilled promise
+        myPromise.then(
+            function (value) { sum(5, 5); },    // code is successful
+            function (error) { sum(error); }    // code is error
+        );
     </script>
 </body>
 
