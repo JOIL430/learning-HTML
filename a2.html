@@ -1,21 +1,130 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Cyberpunk Number Validator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #0f0f2d, #000000);
+            font-family: 'Orbitron', sans-serif;
+            color: #00f0ff;
+        }
+
+        .neon-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid #00f0ff;
+            padding: 3rem 4rem;
+            border-radius: 20px;
+            box-shadow: 0 0 25px #00f0ff, 0 0 80px #00d9ff;
+            text-align: center;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 25px #00f0ff, 0 0 80px #00d9ff;
+            }
+
+            50% {
+                box-shadow: 0 0 40px #00f0ff, 0 0 100px #00ffff;
+            }
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff;
+        }
+
+        p {
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 0.7rem;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            border: none;
+            outline: none;
+            background: #0e0e1a;
+            color: #00f0ff;
+            box-shadow: 0 0 12px #00f0ff;
+            margin-bottom: 1.5rem;
+            transition: 0.2s;
+            text-align: center;
+        }
+
+        input[type="number"]:focus {
+            box-shadow: 0 0 20px #00ffff;
+        }
+
+        button {
+            background: #00f0ff;
+            color: #000;
+            font-weight: bold;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 20px #00f0ff;
+        }
+
+        button:hover {
+            background: #00cce0;
+            box-shadow: 0 0 30px #00cce0;
+            transform: scale(1.05);
+        }
+
+        #result {
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+            text-shadow: 0 0 5px #00ffff;
+        }
+    </style>
+</head>
 
 <body>
-    <h2>JavaScript async / await</h2>
-    <h1 id="result"></h1>
+    <div class="neon-box">
+        <h1>🔮 Cyber Validator</h1>
+        <p>Enter a number between <strong>100</strong> and <strong>300</strong></p>
+        <input id="id1" type="number" min="100" max="300" required />
+        <br />
+        <button onclick="myFunction()">⚡ CHECK</button>
+        <p id="result"></p>
+    </div>
 
     <script>
-        async function add(a, b) {
-            let response = await a + b;
-            display(response);
-        }
+        function myFunction() {
+            const input = document.getElementById("id1");
+            const result = document.getElementById("result");
 
-        function display(some) {
-            document.getElementById("result").innerHTML = some;
+            if (!input.checkValidity()) {
+                result.style.color = "#ff4c4c";
+                result.innerHTML = `❌ ${input.validationMessage}`;
+            } else {
+                result.style.color = "#00ff99";
+                result.innerHTML = "✅ Number is valid. Access granted.";
+            }
         }
-
-        add(5, 20);
     </script>
 </body>
 
