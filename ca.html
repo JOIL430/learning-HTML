@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cool Calculator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
+        body {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Orbitron', monospace;
+            margin: 0;
+        }
+
+        .calculator {
+            background: #0f1e38;
+            border-radius: 20px;
+            box-shadow:
+                0 4px 30px rgba(0, 0, 0, 0.7),
+                inset 0 0 40px #3b82f6,
+                0 0 15px #3b82f6;
+            padding: 30px 25px;
+            width: 320px;
+        }
+
+        .display {
+            background: #031124;
+            border-radius: 15px;
+            color: #3b82f6;
+            font-size: 2.5rem;
+            padding: 20px 15px;
+            text-align: right;
+            box-shadow:
+                inset 0 0 10px #3b82f6;
+            user-select: none;
+            letter-spacing: 2px;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        button {
+            background: #1a2a52;
+            border: none;
+            border-radius: 12px;
+            color: #3b82f6;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow:
+                0 0 10px #3b82f6;
+            transition: all 0.25s ease;
+            user-select: none;
+            padding: 18px 0;
+        }
+
+        button:hover {
+            background: #3b82f6;
+            color: #031124;
+            box-shadow:
+                0 0 20px #60a5fa,
+                0 0 30px #60a5fa;
+            transform: scale(1.1);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .button-zero {
+            grid-column: span 2;
+        }
+
+        .button-clear {
+            background: #ef4444;
+            box-shadow: 0 0 10px #ef4444;
+        }
+
+        .button-clear:hover {
+            background: #b91c1c;
+            box-shadow: 0 0 20px #b91c1c;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="calculator">
+        <div id="display" class="display">0</div>
+        <div class="buttons">
+            <button class="button-clear" id="clear">C</button>
+            <button id="backspace">⌫</button>
+            <button id="divide">÷</button>
+            <button id="multiply">×</button>
+
+            <button class="number">7</button>
+            <button class="number">8</button>
+            <button class="number">9</button>
+            <button id="subtract">−</button>
+
+            <button class="number">4</button>
+            <button class="number">5</button>
+            <button class="number">6</button>
+            <button id="add">+</button>
+
+            <button class="number">1</button>
+            <button class="number">2</button>
+            <button class="number">3</button>
+            <button id="equals">=</button>
+
+            <button class="number button-zero">0</button>
+            <button class="number">.</button>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+        const buttons = document.querySelectorAll('button');
+        let currentInput = '';
+        let resultDisplayed = false;
+
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                const btnValue = button.textContent;
+
+                if (button.id === 'clear') {
+                    currentInput = '';
+                    display.textContent = '0';
+                    return;
+                }
+
+                if (button.id === 'backspace') {
+                    if (resultDisplayed) {
+                        currentInput = '';
+                        display.textContent = '0';
+                        resultDisplayed = false;
+                        return;
+                    }
+                    currentInput = currentInput.slice(0, -1);
+                    display.textContent = currentInput || '0';
+                    return;
+                }
+
+                if (button.id === 'equals') {
+                    try {
+                        // Replace multiplication/division symbols for eval
+                        let expression = currentInput.replace(/×/g, '*').replace(/÷/g, '/').replace(/−/g, '-');
+                        if (/[^0-9+\-*/.]/.test(expression)) {
+                            throw new Error('Invalid input');
+                        }
+                        const evalResult = eval(expression);
+                        display.textContent = evalResult;
+                        currentInput = evalResult.toString();
+                        resultDisplayed = true;
+                    } catch {
+                        display.textContent = 'Error';
+                        currentInput = '';
+                        resultDisplayed = true;
+                    }
+                    return;
+                }
+
+                if (['add', 'subtract', 'multiply', 'divide'].includes(button.id)) {
+                    // Append operator symbols
+                    if (resultDisplayed) {
+                        resultDisplayed = false;
+                    }
+                    const operators = {
+                        add: '+',
+                        subtract: '-',
+                        multiply: '×',
+                        divide: '÷',
+                    };
+                    // Prevent two operators in a row
+                    if (currentInput === '' && btnValue !== '-') return; // Can't start with +, ×, ÷
+                    if (/[+\-×÷]$/.test(currentInput)) {
+                        currentInput = currentInput.slice(0, -1);
+                    }
+                    currentInput += operators[button.id];
+                    display.textContent = currentInput;
+                    return;
+                }
+
+                // For numbers and decimal
+                if (resultDisplayed) {
+                    currentInput = btnValue === '.' ? '0.' : btnValue;
+                    resultDisplayed = false;
+                } else {
+                    // Prevent multiple decimals in one number
+                    if (btnValue === '.') {
+                        const parts = currentInput.split(/[+\-×÷]/);
+                        if (parts[parts.length - 1].includes('.')) return;
+                        if (currentInput === '' || /[+\-×÷]$/.test(currentInput)) {
+                            currentInput += '0.';
+                            display.textContent = currentInput;
+                            return;
+                        }
+                    }
+                    currentInput += btnValue;
+                }
+                display.textContent = currentInput;
+            });
+        });
+    </script>
+
+</body>
+
+</html>
