@@ -1,37 +1,140 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Perimeter Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0a0a23;
+            color: #00ffff;
+            font-family: 'Orbitron', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            border: 2px solid #00f0ff;
+            border-radius: 20px;
+            padding: 30px;
+            width: 350px;
+            background-color: #111;
+            box-shadow: 0 0 15px #00f0ff;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 15px #00f0ff;
+            }
+
+            50% {
+                box-shadow: 0 0 25px #00ffff;
+            }
+        }
+
+        select,
+        input,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #0f0f2d;
+            border: none;
+            color: #00ffff;
+            border-radius: 10px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        button {
+            background-color: #00ffff;
+            color: #000;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 0 10px #00f0ff;
+        }
+
+        button:hover {
+            background-color: #00d0ff;
+            box-shadow: 0 0 15px #00d0ff;
+        }
+
+        #result {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
 
 <body>
-    <h2>JavaScript Promise</h2>
-    <p id="demo"></p>
+
+    <div class="container">
+        <h2>📏 Perimeter Calculator</h2>
+        <select id="shape" onchange="showInputs()">
+            <option value="">Choose Shape</option>
+            <option value="rectangle">Rectangle</option>
+            <option value="triangle">Triangle</option>
+            <option value="circle">Circle</option>
+        </select>
+
+        <div id="inputs"></div>
+
+        <button onclick="calculate()">Calculate</button>
+        <div id="result"></div>
+    </div>
 
     <script>
-        function myDisplayer(some) {
-            document.getElementById("demo").innerHTML = some;
-        }
+        function showInputs() {
+            const shape = document.getElementById("shape").value;
+            const inputs = document.getElementById("inputs");
+            inputs.innerHTML = "";
 
-        function sum(a, b) {
-            var sum = a + b;
-            myDisplayer(sum);
-        }
-
-        let myPromise = new Promise(function (myResolve, myReject) {
-            // producing code may take some time
-            let x = 0; // some code (try to change x to 5)
-
-            if (x == 0) {
-                myResolve("OK"); // when successful
-            } else {
-                myReject("Error"); // when error
+            if (shape === "rectangle") {
+                inputs.innerHTML = `
+          <input type="number" id="length" placeholder="Enter Length">
+          <input type="number" id="breadth" placeholder="Enter Breadth">
+        `;
+            } else if (shape === "triangle") {
+                inputs.innerHTML = `
+          <input type="number" id="side1" placeholder="Enter Side 1">
+          <input type="number" id="side2" placeholder="Enter Side 2">
+          <input type="number" id="side3" placeholder="Enter Side 3">
+        `;
+            } else if (shape === "circle") {
+                inputs.innerHTML = `
+          <input type="number" id="radius" placeholder="Enter Radius">
+        `;
             }
-        });
+        }
 
-        // consuming code - must wait for fulfilled promise
-        myPromise.then(
-            function (value) { sum(5, 5); },    // code is successful
-            function (error) { sum(error); }    // code is error
-        );
+        function calculate() {
+            const shape = document.getElementById("shape").value;
+            let result = 0;
+
+            if (shape === "rectangle") {
+                const l = Number(document.getElementById("length").value);
+                const b = Number(document.getElementById("breadth").value);
+                result = 2 * (l + b);
+            } else if (shape === "triangle") {
+                const s1 = Number(document.getElementById("side1").value);
+                const s2 = Number(document.getElementById("side2").value);
+                const s3 = Number(document.getElementById("side3").value);
+                result = s1 + s2 + s3;
+            } else if (shape === "circle") {
+                const r = Number(document.getElementById("radius").value);
+                result = 2 * 3.14 * r;
+            }
+
+            document.getElementById("result").innerText = `🔹 Perimeter = ${result.toFixed(2)}`;
+        }
     </script>
+
 </body>
 
 </html>

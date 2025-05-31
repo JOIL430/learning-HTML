@@ -3,38 +3,43 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Neon Area Calculator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <title>Cyber Area Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #0a0a23;
-            color: #00ffff;
+            background: radial-gradient(circle, #0f0f2d, #000);
+            color: #00f0ff;
             font-family: 'Orbitron', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
         }
 
-        .container {
+        .calculator {
+            background: rgba(0, 0, 0, 0.4);
             border: 2px solid #00f0ff;
+            padding: 2rem;
             border-radius: 20px;
-            padding: 30px;
             width: 350px;
-            background-color: #111;
-            box-shadow: 0 0 15px #00f0ff;
-            animation: pulse 2s infinite;
+            box-shadow: 0 0 25px #00f0ff, 0 0 80px #00d9ff;
+            animation: pulse 2s infinite ease-in-out;
         }
 
         @keyframes pulse {
 
             0%,
             100% {
-                box-shadow: 0 0 15px #00f0ff;
+                box-shadow: 0 0 25px #00f0ff, 0 0 80px #00d9ff;
             }
 
             50% {
-                box-shadow: 0 0 25px #00ffff;
+                box-shadow: 0 0 40px #00f0ff, 0 0 100px #00ffff;
             }
         }
 
@@ -42,77 +47,85 @@
         input,
         button {
             width: 100%;
+            margin: 10px 0;
             padding: 10px;
-            margin-top: 10px;
-            background-color: #0f0f2d;
-            border: none;
-            color: #00ffff;
             border-radius: 10px;
+            border: none;
             font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            text-align: center;
         }
 
         button {
-            background-color: #00ffff;
-            color: #000;
-            cursor: pointer;
+            background: #00f0ff;
+            color: black;
             font-weight: bold;
-            box-shadow: 0 0 10px #00f0ff;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 20px #00f0ff;
         }
 
         button:hover {
-            background-color: #00d0ff;
-            box-shadow: 0 0 15px #00d0ff;
+            background: #00cce0;
+            box-shadow: 0 0 30px #00cce0;
         }
 
         #result {
             margin-top: 15px;
+            font-size: 1.1rem;
+            text-shadow: 0 0 5px #00ffff;
             text-align: center;
-            font-size: 1.2rem;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="container">
-        <h2>⚡ Area Calculator</h2>
-        <select id="shape" onchange="showInputs()">
-            <option value="">Choose Shape</option>
+    <div class="calculator">
+        <h2>🧮 Cyber Area Calculator</h2>
+        <select id="shape" onchange="updateFields()">
+            <option value="">Select a shape</option>
             <option value="rectangle">Rectangle</option>
             <option value="triangle">Triangle</option>
             <option value="circle">Circle</option>
+            <option value="parallelogram">Parallelogram</option>
         </select>
 
         <div id="inputs"></div>
 
-        <button onclick="calculate()">Calculate</button>
+        <button onclick="calculateArea()">Calculate Area</button>
         <div id="result"></div>
     </div>
 
     <script>
-        function showInputs() {
+        function updateFields() {
             const shape = document.getElementById("shape").value;
             const inputs = document.getElementById("inputs");
             inputs.innerHTML = "";
 
             if (shape === "rectangle") {
                 inputs.innerHTML = `
-          <input type="number" id="length" placeholder="Enter Length">
-          <input type="number" id="breadth" placeholder="Enter Breadth">
+          <input type="number" id="length" placeholder="Length">
+          <input type="number" id="breadth" placeholder="Breadth">
         `;
             } else if (shape === "triangle") {
                 inputs.innerHTML = `
-          <input type="number" id="height" placeholder="Enter Height">
-          <input type="number" id="base" placeholder="Enter Base">
+          <input type="number" id="height" placeholder="Height">
+          <input type="number" id="base" placeholder="Base">
         `;
             } else if (shape === "circle") {
                 inputs.innerHTML = `
-          <input type="number" id="radius" placeholder="Enter Radius">
+          <input type="number" id="radius" placeholder="Radius">
+        `;
+            } else if (shape === "parallelogram") {
+                inputs.innerHTML = `
+          <input type="number" id="height" placeholder="Height">
+          <input type="number" id="base" placeholder="Base">
         `;
             }
         }
 
-        function calculate() {
+        function calculateArea() {
             const shape = document.getElementById("shape").value;
             let result = 0;
 
@@ -127,9 +140,13 @@
             } else if (shape === "circle") {
                 const r = Number(document.getElementById("radius").value);
                 result = 3.14 * r * r;
+            } else if (shape === "parallelogram") {
+                const h = Number(document.getElementById("height").value);
+                const b = Number(document.getElementById("base").value);
+                result = h * b;
             }
 
-            document.getElementById("result").innerText = `🧠 Area = ${result.toFixed(2)}`;
+            document.getElementById("result").innerText = `🧠 Area: ${result.toFixed(2)}`;
         }
     </script>
 
