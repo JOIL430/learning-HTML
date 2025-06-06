@@ -3,74 +3,37 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cool Form</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 2rem;
-            background-color: #f0f4f8;
-        }
+    <title>Palindrome Checker</title>
 
-        form {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            margin: auto;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 0.5rem;
-            margin-top: 0.5rem;
-            margin-bottom: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        input[type="submit"] {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        #message {
-            color: red;
-            margin-top: 1rem;
-        }
-    </style>
 </head>
 
 <body>
+    <h1>🔁 Palindrome Checker</h1>
 
-    <form name="myForm" onsubmit="return validateForm()">
-        <label for="fname">Name:</label>
-        <input type="text" id="fname" name="fname" />
-        <input type="submit" value="Submit" />
-        <p id="message"></p>
-    </form>
+
 
     <script>
-        function validateForm() {
-            const x = document.forms["myForm"]["fname"].value;
-            const message = document.getElementById("message");
+        function checkPalindrome(myString) {
 
-            if (x.trim() === "") {
-                message.textContent = "⚠️ Please enter your name.";
-                return false;
+            const cleaned = myString.replace(/[^A-Za-z0-9]/g, "").toLowerCase();
+            const reversed = cleaned.split('').reverse().join('');
+
+
+            if (cleaned === reversed && cleaned.length > 0) {
+
+                document.write("<div>" + myString + " is a palindrome <div>")
+
             }
 
-            message.textContent = ""; // Clear message if input is valid
-            alert("✅ Form submitted successfully!");
-            return true;
-        }
-    </script>
+            else {
 
+                document.write("<div>" + myString + " is not a palindrome <div>")
+
+            
+
+        }
+        checkPalindrome(madam)
+    </script>
 </body>
 
 </html>
