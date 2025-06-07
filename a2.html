@@ -3,136 +3,56 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Neon Area Calculator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <title>Random Color Generator</title>
     <style>
         body {
-            background-color: #0a0a23;
-            color: #00ffff;
-            font-family: 'Orbitron', sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
-        }
-
-        .container {
-            border: 2px solid #00f0ff;
-            border-radius: 20px;
-            padding: 30px;
-            width: 350px;
+            margin: 0;
             background-color: #111;
-            box-shadow: 0 0 15px #00f0ff;
-            animation: pulse 2s infinite;
+            transition: background 0.5s;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
         }
 
-        @keyframes pulse {
-
-            0%,
-            100% {
-                box-shadow: 0 0 15px #00f0ff;
-            }
-
-            50% {
-                box-shadow: 0 0 25px #00ffff;
-            }
-        }
-
-        select,
-        input,
         button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            background-color: #0f0f2d;
+            padding: 15px 30px;
+            font-size: 1.3rem;
+            background: #00cec9;
+            color: white;
             border: none;
-            color: #00ffff;
             border-radius: 10px;
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        button {
-            background-color: #00ffff;
-            color: #000;
             cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 0 10px #00f0ff;
+            margin-top: 20px;
+            transition: background 0.3s;
         }
 
         button:hover {
-            background-color: #00d0ff;
-            box-shadow: 0 0 15px #00d0ff;
+            background: #01a3a4;
         }
 
-        #result {
-            margin-top: 15px;
-            text-align: center;
-            font-size: 1.2rem;
+        #colorCode {
+            font-size: 2rem;
+            margin-top: 20px;
         }
     </style>
 </head>
 
 <body>
-
-    <div class="container">
-        <h2>⚡ Area Calculator</h2>
-        <select id="shape" onchange="showInputs()">
-            <option value="">Choose Shape</option>
-            <option value="rectangle">Rectangle</option>
-            <option value="triangle">Triangle</option>
-            <option value="circle">Circle</option>
-        </select>
-
-        <div id="inputs"></div>
-
-        <button onclick="calculate()">Calculate</button>
-        <div id="result"></div>
-    </div>
+    <h1>🎨 Random Color Generator</h1>
+    <button onclick="generateColor()">Generate Color</button>
+    <div id="colorCode">#000000</div>
 
     <script>
-        function showInputs() {
-            const shape = document.getElementById("shape").value;
-            const inputs = document.getElementById("inputs");
-            inputs.innerHTML = "";
-
-            if (shape === "rectangle") {
-                inputs.innerHTML = `
-          <input type="number" id="length" placeholder="Enter Length">
-          <input type="number" id="breadth" placeholder="Enter Breadth">
-        `;
-            } else if (shape === "triangle") {
-                inputs.innerHTML = `
-          <input type="number" id="height" placeholder="Enter Height">
-          <input type="number" id="base" placeholder="Enter Base">
-        `;
-            } else if (shape === "circle") {
-                inputs.innerHTML = `
-          <input type="number" id="radius" placeholder="Enter Radius">
-        `;
-            }
-        }
-
-        function calculate() {
-            const shape = document.getElementById("shape").value;
-            let result = 0;
-
-            if (shape === "rectangle") {
-                const l = Number(document.getElementById("length").value);
-                const b = Number(document.getElementById("breadth").value);
-                result = l * b;
-            } else if (shape === "triangle") {
-                const h = Number(document.getElementById("height").value);
-                const b = Number(document.getElementById("base").value);
-                result = 0.5 * h * b;
-            } else if (shape === "circle") {
-                const r = Number(document.getElementById("radius").value);
-                result = 3.14 * r * r;
-            }
-
-            document.getElementById("result").innerText = `🧠 Area = ${result.toFixed(2)}`;
+        function generateColor() {
+            const randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+            document.body.style.backgroundColor = randomColor;
+            document.getElementById('colorCode').textContent = randomColor.toUpperCase();
         }
     </script>
-
 </body>
 
 </html>
