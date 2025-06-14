@@ -1,26 +1,34 @@
-function showTime() {
-    var date = new Date();
-    var h = date.getHours();
-    var m = date.getMinutes();
-    var s = date.getSeconds();
-    var session = "AM";
+let startTime = 0;
+let elapsedTime = 0;
+let timerInterval;
+let running = false;
 
-    if (h == 0) {
-        h = 12;
-    }
-
-    if (h > 12) {
-        h = h - 12;
-        session = "PM";
-    }
-
-    h = (h < 10) ? "0" + h : h;
-    m = (m < 10) ? "0" + m : m;
-    s = (s < 10) ? "0" + s : s;
-
-    var time = h + ":" + m + ":" + s + " " + session;
-    document.getElementById("MyClockDisplay").innerText = time;
-    setTimeout(showTime, 1000);
+function updateDisplay() {
+    const time = new Date(elapsedTime);
+    const minutes = time.getUTCMinutes().toString().padStart(2, '0');
+    const seconds = time.getUTCSeconds().toString().padStart(2, '0');
+    const milliseconds = Math.floor(time.getUTCMilliseconds() / 10).toString().padStart(2, '0');
+    document.getElementById('display').textContent = `${minutes}:${seconds}:${milliseconds}`;
 }
 
-showTime();
+function start() {
+    if (running) return;
+    running = true;
+    startTime = Date.now() - elapsedTime;
+    timerInterval = setInterval(() => {
+        elapsedTime = Date.now() - startTime;
+        updateDisplay();
+    }, 10);
+}
+
+function stop() {
+    running = false;
+    clearInterval(timerInterval);
+}
+
+function reset() {
+    running = false;
+    clearInterval(timerInterval);
+    elapsedTime = 0;
+    updateDisplay();
+}
