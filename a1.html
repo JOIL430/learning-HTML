@@ -3,69 +3,102 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Super Cool Dice</title>
+    <title>just tab bro😎</title>
     <style>
         body {
-            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            margin: 0;
             font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #141e30, #243b55);
+            color: white;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            color: white;
         }
 
-        .dice {
-            width: 120px;
-            height: 120px;
-            background: white;
-            border-radius: 20px;
+        h1 {
+            margin-top: 20px;
+        }
+
+        .tabs {
+            margin: 30px 0;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 64px;
-            color: #2c5364;
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
-            transition: transform 0.4s ease;
-            margin-bottom: 30px;
+            gap: 20px;
         }
 
-        .roll-btn {
-            padding: 15px 30px;
-            font-size: 20px;
+        .tab-btn {
+            padding: 12px 25px;
+            background: #00c9ff;
+            color: white;
             border: none;
             border-radius: 10px;
-            background: #00d2ff;
-            color: #fff;
             cursor: pointer;
-            box-shadow: 0 0 20px #00d2ff;
-            transition: transform 0.2s;
+            font-size: 16px;
+            box-shadow: 0 0 10px #00c9ff;
+            transition: background 0.3s, transform 0.2s;
         }
 
-        .roll-btn:hover {
-            transform: scale(1.1);
+        .tab-btn:hover {
+            background: #00b0e1;
+            transform: scale(1.05);
+        }
+
+        .tab-btn.active {
+            background: #ff4b2b;
+            box-shadow: 0 0 15px #ff4b2b;
+        }
+
+        .tab-content {
+            display: none;
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .tab-content.active {
+            display: block;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="dice" id="dice">🎲</div>
-    <button class="roll-btn" onclick="rollDice()">Roll Dice</button>
+    <h1>Welcome to DKS world go and explore!</h1>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('home')">Home</button>
+        <button class="tab-btn" onclick="switchTab('about')">About</button>
+        <button class="tab-btn" onclick="switchTab('contact')">Contact</button>
+    </div>
+
+    <div id="home" class="tab-content active">
+        <h2>🏠 Welcome Home</h2>
+        <p>well this is home to just chill!</p>
+    </div>
+
+    <div id="about" class="tab-content">
+        <h2>📘 2nd</h2>
+        <p>We build cool web apps, one tab at a time. Built with HTML, CSS, and JS.</p>
+    </div>
+
+    <div id="contact" class="tab-content">
+        <h2>had fun ? contact us f good revwes!📞</h2>
+        <p>Reach us at <a href="mailto:hello@example.com">hello@example.com</a></p>
+    </div>
 
     <script>
-        const dice = document.getElementById("dice");
-        const faces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
-
-        function rollDice() {
-            const roll = Math.floor(Math.random() * 6);
-            dice.textContent = faces[roll];
-            dice.style.transform = `rotate(${360 + roll * 60}deg) scale(1.1)`;
-            setTimeout(() => {
-                dice.style.transform = 'scale(1)';
-            }, 300);
+        function switchTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            // Remove active class from buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            // Highlight active button
+            event.target.classList.add('active');
         }
     </script>
 
