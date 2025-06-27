@@ -1,105 +1,125 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <title>just tab bro😎</title>
+
+    <title>Auto Slider</title>
+
     <style>
         body {
+
             margin: 0;
+
+            background: linear-gradient(to right, #1f4037, #99f2c8);
+
             font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(to right, #141e30, #243b55);
-            color: white;
+
             display: flex;
-            flex-direction: column;
+
             align-items: center;
+
+            justify-content: center;
+
+            height: 100vh;
+
+            overflow: hidden;
+
         }
 
-        h1 {
-            margin-top: 20px;
-        }
+        .slider {
 
-        .tabs {
-            margin: 30px 0;
-            display: flex;
-            gap: 20px;
-        }
+            position: relative;
 
-        .tab-btn {
-            padding: 12px 25px;
-            background: #00c9ff;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            box-shadow: 0 0 10px #00c9ff;
-            transition: background 0.3s, transform 0.2s;
-        }
-
-        .tab-btn:hover {
-            background: #00b0e1;
-            transform: scale(1.05);
-        }
-
-        .tab-btn.active {
-            background: #ff4b2b;
-            box-shadow: 0 0 15px #ff4b2b;
-        }
-
-        .tab-content {
-            display: none;
             width: 80%;
-            max-width: 600px;
-            text-align: center;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+
+            max-width: 800px;
+
+            height: 400px;
+
+            overflow: hidden;
+
+            border-radius: 20px;
+
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+
         }
 
-        .tab-content.active {
-            display: block;
+        .slides {
+
+            display: flex;
+
+            width: 100%;
+
+            height: 100%;
+
+            transition: transform 0.6s ease;
+
+        }
+
+        .slide {
+
+            min-width: 100%;
+
+            height: 100%;
+
+            background-size: cover;
+
+            background-position: center;
+
+        }
+
+        /* Example slide backgrounds */
+
+        .slide1 {
+            background-image: url('https://picsum.photos/id/1018/800/400');
+        }
+
+        .slide2 {
+            background-image: url('https://picsum.photos/id/1025/800/400');
+        }
+
+        .slide3 {
+            background-image: url('https://picsum.photos/id/1040/800/400');
         }
     </style>
+
 </head>
 
 <body>
 
-    <h1>Welcome to DKS world go and explore!</h1>
+    <div class="slider">
 
-    <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('home')">Home</button>
-        <button class="tab-btn" onclick="switchTab('about')">About</button>
-        <button class="tab-btn" onclick="switchTab('contact')">Contact</button>
-    </div>
+        <div class="slides" id="slides">
 
-    <div id="home" class="tab-content active">
-        <h2>🏠 Welcome Home</h2>
-        <p>well this is home to just chill!</p>
-    </div>
+            <div class="slide slide1"></div>
 
-    <div id="about" class="tab-content">
-        <h2>📘 2nd</h2>
-        <p>We build cool web apps, one tab at a time. Built with HTML, CSS, and JS.</p>
-    </div>
+            <div class="slide slide2"></div>
 
-    <div id="contact" class="tab-content">
-        <h2>had fun ? contact us f good revwes!📞</h2>
-        <p>Reach us at <a href="mailto:hello@example.com">hello@example.com</a></p>
+            <div class="slide slide3"></div>
+
+        </div>
+
     </div>
 
     <script>
-        function switchTab(tabId) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            // Remove active class from buttons
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            // Show selected tab
-            document.getElementById(tabId).classList.add('active');
-            // Highlight active button
-            event.target.classList.add('active');
-        }
+
+        const slides = document.getElementById('slides');
+
+        const totalSlides = slides.children.length;
+
+        let index = 0;
+
+        setInterval(() => {
+
+            index = (index + 1) % totalSlides;
+
+            slides.style.transform = `translateX(-${index * 100}%)`;
+
+        }, 3000); // Change every 3 seconds
+
     </script>
 
 </body>
