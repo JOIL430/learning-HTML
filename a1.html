@@ -1,125 +1,126 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <title>Auto Slider</title>
-
+    <title>One Page Food Wiki 🍽️</title>
     <style>
         body {
-
             margin: 0;
-
-            background: linear-gradient(to right, #1f4037, #99f2c8);
-
             font-family: 'Segoe UI', sans-serif;
+            background: #fff8f0;
+        }
 
+        header {
+            background: #ff6e6e;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            font-size: 2em;
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        nav {
             display: flex;
-
-            align-items: center;
-
             justify-content: center;
-
-            height: 100vh;
-
-            overflow: hidden;
-
+            background: #ffe2e2;
+            padding: 10px 0;
+            gap: 15px;
         }
 
-        .slider {
-
-            position: relative;
-
-            width: 80%;
-
-            max-width: 800px;
-
-            height: 400px;
-
-            overflow: hidden;
-
-            border-radius: 20px;
-
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
-
+        .nav-btn {
+            background: #fff;
+            border: 2px solid #ff5e57;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.2s ease;
         }
 
-        .slides {
+        .nav-btn:hover,
+        .nav-btn.active {
+            background: #ff5e57;
+            color: white;
+        }
 
-            display: flex;
+        .content {
+            display: none;
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
 
+        .content.active {
+            display: block;
+        }
+
+        .content img {
             width: 100%;
-
-            height: 100%;
-
-            transition: transform 0.6s ease;
-
+            border-radius: 10px;
+            margin-top: 15px;
         }
 
-        .slide {
-
-            min-width: 100%;
-
-            height: 100%;
-
-            background-size: cover;
-
-            background-position: center;
-
+        .content h2 {
+            margin-top: 0;
         }
 
-        /* Example slide backgrounds */
-
-        .slide1 {
-            background-image: url('https://picsum.photos/id/1018/800/400');
-        }
-
-        .slide2 {
-            background-image: url('https://picsum.photos/id/1025/800/400');
-        }
-
-        .slide3 {
-            background-image: url('https://picsum.photos/id/1040/800/400');
+        footer {
+            text-align: center;
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 20px;
         }
     </style>
-
 </head>
 
 <body>
 
-    <div class="slider">
+    <header>🍽️ Food Wiki</header>
 
-        <div class="slides" id="slides">
+    <nav>
+        <button class="nav-btn active" onclick="showPage('pizza', this)">🍕 Pizza</button>
+        <button class="nav-btn" onclick="showPage('burger', this)">🍔 Burger</button>
+        <button class="nav-btn" onclick="showPage('cake', this)">🍰 Cake</button>
+    </nav>
 
-            <div class="slide slide1"></div>
-
-            <div class="slide slide2"></div>
-
-            <div class="slide slide3"></div>
-
-        </div>
-
+    <div id="pizza" class="content active">
+        <h2>🍕 Pizza</h2>
+        <p>Pizza is an Italian dish consisting of a flatbread topped with tomato sauce, cheese, and other toppings like
+            pepperoni, veggies, or olives. It's baked until crispy and is loved worldwide.</p>
+        <img src="https://images.unsplash.com/photo-1499028344343-cd173ffc68a9?auto=format&fit=crop&w=1000&q=80"
+            alt="Pizza">
     </div>
 
+    <div id="burger" class="content">
+        <h2>🍔 Burger</h2>
+        <p>A burger is a sandwich made with a juicy meat patty, fresh lettuce, tomato, onion, sauces, and a bun. You can
+            find beef, chicken, veggie, or even double-stacked versions everywhere.</p>
+        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1000&q=80"
+            alt="Burger">
+    </div>
+
+    <div id="cake" class="content">
+        <h2>🍰 Cake</h2>
+        <p>Cake is a sweet baked dessert made with flour, sugar, eggs, and flavoring. Cakes are often frosted and
+            decorated for birthdays, weddings, and celebrations around the world.</p>
+        <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=1000&q=80"
+            alt="Cake">
+    </div>
+
+    <footer>Made with ❤️ by DK</footer>
+
     <script>
+        function showPage(id, btn) {
+            document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
 
-        const slides = document.getElementById('slides');
-
-        const totalSlides = slides.children.length;
-
-        let index = 0;
-
-        setInterval(() => {
-
-            index = (index + 1) % totalSlides;
-
-            slides.style.transform = `translateX(-${index * 100}%)`;
-
-        }, 3000); // Change every 3 seconds
-
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
     </script>
 
 </body>
