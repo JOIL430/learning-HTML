@@ -1,0 +1,988 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Dromo 2.0 — Posts</title>
+    <style>
+        :root {
+            --bg1: #062226;
+            --bg2: #083a3b;
+            --card: #0d4646;
+            --accent: #1af4c9;
+            --accent2: #27f6b2;
+            --muted: #9fd3c9;
+            --glass: rgba(255, 255, 255, 0.03);
+            --radius: 14px;
+            --shadow: 0 8px 30px rgba(2, 50, 50, 0.35);
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: Inter, system-ui, Arial;
+            margin: 0;
+            padding: 0
+        }
+
+        body {
+            background: linear-gradient(180deg, var(--bg1), #022e2f);
+            color: #e6fffa;
+            -webkit-font-smoothing: antialiased
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 60;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.02), transparent);
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 18px;
+            box-shadow: var(--shadow)
+        }
+
+        .brand {
+            display: flex;
+            gap: 12px;
+            align-items: center
+        }
+
+        .logo {
+            width: 48px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            box-shadow: 0 10px 32px rgba(26, 244, 201, 0.08);
+            transform: skewX(-6deg)
+        }
+
+        h1 {
+            font-size: 18px;
+            margin: 0;
+            letter-spacing: 0.6px
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 8px 12px;
+            border-radius: 10px;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all .16s
+        }
+
+        .btn:hover {
+            transform: translateY(-3px)
+        }
+
+        .btn.primary {
+            background: var(--accent);
+            border: 0;
+            color: #002;
+            font-weight: 800;
+            box-shadow: 0 12px 30px rgba(26, 244, 201, 0.08)
+        }
+
+        .layout {
+            max-width: 1150px;
+            margin: 18px auto;
+            display: grid;
+            grid-template-columns: 260px 1fr 340px;
+            gap: 18px;
+            padding: 0 12px
+        }
+
+        @media (max-width:1100px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .right-aside {
+                order: 3
+            }
+        }
+
+        aside {
+            background: linear-gradient(180deg, var(--bg2), var(--card));
+            padding: 14px;
+            border-radius: var(--radius);
+            border: 1px solid var(--glass)
+        }
+
+        .card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            margin-bottom: 12px;
+            box-shadow: 0 6px 20px rgba(1, 30, 30, 0.18)
+        }
+
+        .small {
+            font-size: 13px;
+            color: var(--muted)
+        }
+
+        .compose {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start
+        }
+
+        .compose textarea {
+            flex: 1;
+            min-height: 80px;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            background: transparent;
+            color: inherit;
+            resize: vertical
+        }
+
+        .attach-preview {
+            width: 160px;
+            height: 96px;
+            border-radius: 10px;
+            background: #042a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px dashed rgba(255, 255, 255, 0.03)
+        }
+
+        .feed {
+            display: flex;
+            flex-direction: column;
+            gap: 12px
+        }
+
+        .post {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            transition: transform .18s, box-shadow .18s
+        }
+
+        .post:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 18px 48px rgba(3, 70, 70, 0.12)
+        }
+
+        .meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px
+        }
+
+        .left-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            display: inline-block;
+            flex-shrink: 0
+        }
+
+        .author {
+            font-weight: 800;
+            color: var(--accent);
+            cursor: pointer
+        }
+
+        .bio {
+            font-size: 13px;
+            color: var(--muted)
+        }
+
+        .time {
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .body {
+            margin-top: 10px;
+            white-space: pre-wrap
+        }
+
+        .post img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 10px;
+            display: block
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            align-items: center;
+            flex-wrap: wrap
+        }
+
+        .icon-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 8px 10px;
+            border-radius: 10px;
+            color: var(--muted);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all .12s
+        }
+
+        .icon-btn:hover {
+            transform: translateY(-4px)
+        }
+
+        .icon-btn.liked {
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            color: #002;
+            border: 0;
+            box-shadow: 0 10px 30px rgba(26, 244, 201, 0.08)
+        }
+
+        .comments {
+            margin-top: 10px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.02);
+            padding-top: 10px
+        }
+
+        .comment {
+            padding: 8px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.01);
+            margin-top: 8px
+        }
+
+        .notifications-panel {
+            position: fixed;
+            right: 18px;
+            top: 80px;
+            background: linear-gradient(180deg, #043434, #023733);
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            width: 300px;
+            display: none;
+            z-index: 80;
+            animation: pop .14s
+        }
+
+        @keyframes pop {
+            from {
+                transform: translateY(-6px);
+                opacity: 0
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1
+            }
+        }
+
+        .notif {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 8px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 13px
+        }
+
+        .profile-card {
+            display: flex;
+            gap: 12px;
+            align-items: center
+        }
+
+        .profile-avatar {
+            width: 84px;
+            height: 84px;
+            border-radius: 12px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            flex-shrink: 0
+        }
+
+        .profile-info {
+            flex: 1
+        }
+
+        .follow-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px
+        }
+
+        .pulse {
+            animation: pulse 1.8s infinite
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(26, 244, 201, 0.12)
+            }
+
+            50% {
+                box-shadow: 0 0 34px 6px rgba(26, 244, 201, 0.04)
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(26, 244, 201, 0)
+            }
+        }
+
+        .like-pop {
+            animation: likePop .26s ease
+        }
+
+        @keyframes likePop {
+            0% {
+                transform: scale(1)
+            }
+
+            50% {
+                transform: scale(1.4)
+            }
+
+            100% {
+                transform: scale(1)
+            }
+        }
+
+        footer {
+            padding: 18px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 14px
+        }
+
+        input[type="file"] {
+            display: none
+        }
+
+        .tab-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px
+        }
+
+        .tab {
+            padding: 8px 10px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.02);
+            cursor: pointer
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="brand">
+            <div class="logo pulse" aria-hidden></div>
+            <div>
+                <h1>JSDC</h1>
+                <div class="small">Posts — blue/green, animated</div>
+            </div>
+        </div>
+
+        <div class="top-actions" id="topActions"></div>
+    </header>
+
+    <div class="layout">
+        <!-- left -->
+        <aside>
+            <div class="card">
+                <div class="profile-card">
+                    <div id="leftAvatar" class="avatar"></div>
+                    <div class="profile-info">
+                        <div id="leftName" style="font-weight:800">Guest</div>
+                        <div id="leftEmail" class="small">Sign in to post</div>
+                        <div class="follow-row" style="margin-top:6px">
+                            <div class="small">Followers: <span id="leftFollowers">0</span></div>
+                            <div class="small">Following: <span id="leftFollowing">0</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div style="font-weight:800;margin-bottom:8px">Navigation</div>
+                <div class="tab-row">
+                    <div class="tab" id="navHome">Home</div>
+                    <div class="tab" id="navFollowing">Following</div>
+                    <div class="tab" id="navProfile">Profile</div>
+                </div>
+                <div style="font-weight:800;margin-top:8px;margin-bottom:8px">People</div>
+                <div id="peopleList" class="small">No users yet</div>
+            </div>
+        </aside>
+
+        <!-- center -->
+        <main>
+            <section class="card">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                    <div style="font-weight:900">Create a post</div>
+                    <div>
+                        <button class="btn" id="openNotifications">Notifications</button>
+                    </div>
+                </div>
+
+                <div class="compose">
+                    <textarea id="postText" placeholder="What's happening? (text + optional image)"></textarea>
+                    <div style="width:180px">
+                        <label for="postImage" class="btn" style="width:100%">Attach image</label>
+                        <input id="postImage" type="file" accept="image/*">
+                        <div class="attach-preview" id="attachPreview">No image</div>
+                        <div style="margin-top:8px">
+                            <button class="btn primary" id="btnPost">Post</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                    <div style="font-weight:900">Home feed</div>
+                    <div class="small">Public posts • click a post to open</div>
+                </div>
+                <div id="feed" class="feed"></div>
+            </section>
+        </main>
+
+        <!-- right -->
+        <aside class="right-aside">
+            <div class="card">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                    <div style="font-weight:800">Profile</div>
+                    <div><button class="btn" id="editProfileBtn">Edit</button></div>
+                </div>
+                <div style="margin-top:12px" id="profileBlock">
+                    <div class="profile-card">
+                        <div id="profileAvatar" class="profile-avatar"></div>
+                        <div class="profile-info">
+                            <div id="profileName" style="font-weight:800">Not signed in</div>
+                            <div id="profileBio" class="small">—</div>
+                            <div style="margin-top:8px" class="follow-row">
+                                <div class="small">Followers: <span id="profileFollowers">0</span></div>
+                                <div class="small">Following: <span id="profileFollowing">0</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div style="font-weight:800;margin-bottom:8px">Trending tags</div>
+                <div class="small" id="tags">#dromo #posts #share</div>
+            </div>
+        </aside>
+    </div>
+
+    <div class="notifications-panel" id="notificationsPanel"></div>
+
+    <!-- auth modal -->
+    <div id="authModal"
+        style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;z-index:70">
+        <div
+            style="background:var(--card);padding:16px;border-radius:12px;width:420px;border:1px solid rgba(255,255,255,0.03)">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                <div style="font-weight:900">Sign in / Register</div>
+                <button class="btn" id="closeAuth">Close</button>
+            </div>
+            <div style="display:flex;gap:10px">
+                <div style="flex:1">
+                    <div class="small">Sign in (username or email)</div>
+                    <input id="si_ident" placeholder="username or email"
+                        style="margin-top:6px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" />
+                    <input id="si_pass" placeholder="password" type="password"
+                        style="margin-top:6px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" />
+                    <button class="btn primary" id="btnSignIn" style="margin-top:8px;width:100%">Sign in</button>
+                </div>
+                <div style="width:1px;background:rgba(255,255,255,0.02)"></div>
+                <div style="flex:1">
+                    <div class="small">Register</div>
+                    <input id="su_user" placeholder="username"
+                        style="margin-top:6px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" />
+                    <input id="su_email" placeholder="email"
+                        style="margin-top:6px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" />
+                    <input id="su_pass" placeholder="password" type="password"
+                        style="margin-top:6px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" />
+                    <div style="margin-top:8px;display:flex;gap:8px">
+                        <label class="btn" for="regAvatar">Upload avatar</label>
+                        <input id="regAvatar" type="file" accept="image/*" style="display:none">
+                        <button class="btn" id="btnRegister" style="flex:1">Create</button>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top:10px" class="small">Tip: register a username and upload an avatar to see profile
+                features.</div>
+        </div>
+    </div>
+
+    <!-- profile edit modal -->
+    <div id="editModal"
+        style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);align-items:center;justify-content:center;z-index:75">
+        <div
+            style="background:var(--card);padding:16px;border-radius:12px;width:420px;border:1px solid rgba(255,255,255,0.03)">
+            <div style="font-weight:900;margin-bottom:8px">Edit profile</div>
+            <input id="editBio" placeholder="Short bio"
+                style="padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" />
+            <div style="margin-top:8px;display:flex;gap:8px">
+                <label class="btn" for="editAvatar">Change avatar</label><input id="editAvatar" type="file"
+                    accept="image/*" style="display:none">
+                <button class="btn primary" id="saveProfile">Save</button>
+            </div>
+            <div style="margin-top:8px"><button class="btn" id="closeEdit">Close</button></div>
+        </div>
+    </div>
+
+    <footer>Made with ❤️ — Dromo 2.0 (local demo)</footer>
+
+    <script>
+        /* ---------- localStorage helpers ---------- */
+        function dbGet(k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } }
+        function dbSet(k, v) { localStorage.setItem(k, JSON.stringify(v)); }
+
+        /* initialize storage structures */
+        if (!dbGet('users')) dbSet('users', {});
+        if (!dbGet('posts')) dbSet('posts', []);
+        if (!dbGet('notifications')) dbSet('notifications', []);
+        if (!dbGet('session')) localStorage.removeItem('session'); // start signed out
+
+        /* UI refs */
+        const topActions = document.getElementById('topActions');
+        const feedEl = document.getElementById('feed');
+        const peopleList = document.getElementById('peopleList');
+        const notificationsPanel = document.getElementById('notificationsPanel');
+
+        /* small UI helpers */
+        function currentUser() { return localStorage.getItem('session') || null; }
+        function showFloating(text, ms = 2000) {
+            const pop = document.createElement('div'); pop.className = 'notif'; pop.textContent = text; pop.style.position = 'fixed'; pop.style.right = '18px'; pop.style.top = '20px'; pop.style.zIndex = 999;
+            document.body.appendChild(pop);
+            setTimeout(() => { pop.style.opacity = '0'; pop.style.transform = 'translateY(-8px)'; }, ms - 300);
+            setTimeout(() => pop.remove(), ms);
+        }
+
+        /* notification store helpers */
+        function addNotification(user, text) {
+            const arr = dbGet('notifications') || [];
+            arr.unshift({ id: 'n' + Date.now(), to: user, text, ts: Date.now() });
+            dbSet('notifications', arr);
+            // if notifications panel open and current user, refresh
+            if (notificationsPanel.style.display === 'block') renderNotifications();
+        }
+
+        /* auth UI and logic */
+        function renderTopActions() {
+            topActions.innerHTML = '';
+            const u = currentUser();
+            if (u) {
+                const hi = document.createElement('div'); hi.textContent = 'Hi, ' + u; hi.style.fontWeight = 800; topActions.appendChild(hi);
+                const prof = document.createElement('button'); prof.className = 'btn'; prof.textContent = 'Profile'; prof.addEventListener('click', () => openProfilePage(u)); topActions.appendChild(prof);
+                const signout = document.createElement('button'); signout.className = 'btn'; signout.textContent = 'Sign out'; signout.addEventListener('click', () => { signOutUser(); }); topActions.appendChild(signout);
+            } else {
+                const btn = document.createElement('button'); btn.className = 'btn primary'; btn.textContent = 'Sign in / Register'; btn.addEventListener('click', () => openAuth()); topActions.appendChild(btn);
+            }
+            renderProfileBlock();
+        }
+
+        /* sign in/out */
+        function signInUser(username) {
+            localStorage.setItem('session', username);
+            renderTopActions(); renderFeed(currentView); showFloating('Signed in as ' + username);
+        }
+        function signOutUser() {
+            localStorage.removeItem('session');
+            renderTopActions(); renderFeed('home'); showFloating('Signed out');
+        }
+
+        /* open/close auth modal */
+        function openAuth() { document.getElementById('authModal').style.display = 'flex'; }
+        document.getElementById('closeAuth').addEventListener('click', () => document.getElementById('authModal').style.display = 'none');
+
+        /* handle registration with avatar upload */
+        let regAvatarData = null;
+        document.getElementById('regAvatar').addEventListener('change', (e) => {
+            const f = e.target.files[0]; if (!f) return;
+            const r = new FileReader(); r.onload = ev => { regAvatarData = ev.target.result; };
+            r.readAsDataURL(f);
+        });
+        document.getElementById('btnRegister').addEventListener('click', () => {
+            const u = document.getElementById('su_user').value.trim();
+            const email = document.getElementById('su_email').value.trim();
+            const pw = document.getElementById('su_pass').value;
+            if (!u || !email || !pw) { showFloating('Complete registration fields'); return; }
+            const users = dbGet('users') || {};
+            if (users[u]) { showFloating('Username taken'); return; }
+            // email unique
+            for (let k in users) if (users[k].email === email) { showFloating('Email in use'); return; }
+            users[u] = { username: u, email, password: pw, avatar: regAvatarData || null, bio: '', followers: [], following: [], createdAt: Date.now() };
+            dbSet('users', users);
+            regAvatarData = null;
+            signInUser(u);
+            document.getElementById('authModal').style.display = 'none';
+        });
+
+        /* sign in (by username or email) */
+        document.getElementById('btnSignIn').addEventListener('click', () => {
+            const ident = document.getElementById('si_ident').value.trim();
+            const pw = document.getElementById('si_pass').value;
+            const users = dbGet('users') || {};
+            let found = null;
+            for (let k in users) { if (k === ident || users[k].email === ident) { found = users[k]; break; } }
+            if (!found || found.password !== pw) { showFloating('Invalid credentials'); return; }
+            signInUser(found.username);
+            document.getElementById('authModal').style.display = 'none';
+        });
+
+        /* profile edit modal logic */
+        let editAvatarData = null;
+        document.getElementById('editAvatar').addEventListener('change', (e) => {
+            const f = e.target.files[0]; if (!f) return;
+            const r = new FileReader(); r.onload = ev => { editAvatarData = ev.target.result; };
+            r.readAsDataURL(f);
+        });
+        document.getElementById('editProfileBtn').addEventListener('click', () => {
+            if (!currentUser()) return openAuth();
+            const users = dbGet('users') || {}; const me = users[currentUser()];
+            document.getElementById('editBio').value = me.bio || '';
+            document.getElementById('editModal').style.display = 'flex';
+        });
+        document.getElementById('closeEdit').addEventListener('click', () => { document.getElementById('editModal').style.display = 'none'; editAvatarData = null; });
+        document.getElementById('saveProfile').addEventListener('click', () => {
+            const u = currentUser(); if (!u) return openAuth();
+            const users = dbGet('users') || {}; users[u].bio = document.getElementById('editBio').value.trim();
+            if (editAvatarData) users[u].avatar = editAvatarData;
+            dbSet('users', users);
+            editAvatarData = null;
+            document.getElementById('editModal').style.display = 'none';
+            renderPeople(); renderProfileBlock();
+            showFloating('Profile saved');
+        });
+
+        /* render people list */
+        function renderPeople() {
+            const users = dbGet('users') || {};
+            peopleList.innerHTML = '';
+            if (Object.keys(users).length === 0) { peopleList.textContent = 'No users yet'; return; }
+            for (let k of Object.keys(users)) {
+                const u = users[k];
+                const el = document.createElement('div'); el.style.display = 'flex'; el.style.justifyContent = 'space-between'; el.style.alignItems = 'center'; el.style.marginBottom = '8px';
+                const left = document.createElement('div'); left.style.display = 'flex'; left.style.alignItems = 'center';
+                const av = document.createElement('div'); av.className = 'avatar'; if (u.avatar) av.style.backgroundImage = `url(${u.avatar})`; av.style.backgroundSize = 'cover';
+                left.appendChild(av);
+                const meta = document.createElement('div'); meta.style.marginLeft = '8px'; meta.innerHTML = `<div style="font-weight:800;cursor:pointer" data-user="${k}">${k}</div><div class="small">${u.email || ''}</div>`;
+                left.appendChild(meta);
+                meta.querySelector('[data-user]').addEventListener('click', () => openProfilePage(k));
+                const btn = document.createElement('button'); btn.className = 'btn'; btn.textContent = 'Follow'; btn.addEventListener('click', () => toggleFollow(k));
+                el.appendChild(left); el.appendChild(btn); peopleList.appendChild(el);
+            }
+        }
+
+        /* toggle follow */
+        function toggleFollow(target) {
+            const me = currentUser(); if (!me) return openAuth();
+            if (me === target) { showFloating("You can't follow yourself"); return; }
+            const users = dbGet('users') || {};
+            users[me].following = users[me].following || []; users[target].followers = users[target].followers || [];
+            if (users[me].following.includes(target)) {
+                users[me].following = users[me].following.filter(x => x !== target);
+                users[target].followers = users[target].followers.filter(x => x !== me);
+                showFloating('Unfollowed ' + target);
+            } else {
+                users[me].following.push(target);
+                users[target].followers.push(me);
+                addNotification(target, `${me} followed you`);
+                showFloating('Followed ' + target);
+            }
+            dbSet('users', users);
+            renderProfileBlock(); renderPeople(); renderFeed(currentView);
+        }
+
+        /* profile block right/left */
+        function renderProfileBlock() {
+            const u = currentUser(); const users = dbGet('users') || {};
+            const leftName = document.getElementById('leftName'); const leftEmail = document.getElementById('leftEmail');
+            const leftFollowers = document.getElementById('leftFollowers'); const leftFollowing = document.getElementById('leftFollowing');
+            const profileName = document.getElementById('profileName'); const profileBio = document.getElementById('profileBio');
+            const profileFollowers = document.getElementById('profileFollowers'); const profileFollowing = document.getElementById('profileFollowing');
+            const leftAvatar = document.getElementById('leftAvatar'); const profileAvatar = document.getElementById('profileAvatar');
+            const p = users[u];
+            if (!u) {
+                leftName.textContent = 'Guest'; leftEmail.textContent = 'Sign in to post'; leftFollowers.textContent = '0'; leftFollowing.textContent = '0';
+                profileName.textContent = 'Not signed in'; profileBio.textContent = '—'; profileFollowers.textContent = '0'; profileFollowing.textContent = '0';
+                leftAvatar.style.backgroundImage = ''; profileAvatar.style.backgroundImage = ''; return;
+            }
+            leftName.textContent = p.username; leftEmail.textContent = p.email || ''; leftFollowers.textContent = (p.followers || []).length; leftFollowing.textContent = (p.following || []).length;
+            profileName.textContent = p.username; profileBio.textContent = p.bio || '—'; profileFollowers.textContent = (p.followers || []).length; profileFollowing.textContent = (p.following || []).length;
+            leftAvatar.style.backgroundImage = p.avatar ? `url(${p.avatar})` : ''; profileAvatar.style.backgroundImage = p.avatar ? `url(${p.avatar})` : '';
+            leftAvatar.style.backgroundSize = 'cover'; profileAvatar.style.backgroundSize = 'cover';
+        }
+
+        /* post image preview */
+        let postImageData = null;
+        document.getElementById('postImage').addEventListener('change', (e) => {
+            const f = e.target.files[0]; if (!f) { document.getElementById('attachPreview').innerHTML = 'No image'; postImageData = null; return; }
+            const r = new FileReader(); r.onload = ev => { postImageData = ev.target.result; document.getElementById('attachPreview').innerHTML = `<img src="${postImageData}" style="max-width:100%;max-height:100%;display:block">`; };
+            r.readAsDataURL(f);
+        });
+
+        /* create post */
+        document.getElementById('btnPost').addEventListener('click', () => {
+            const me = currentUser(); if (!me) return openAuth();
+            const text = document.getElementById('postText').value.trim();
+            if (!text && !postImageData) { showFloating('Write something or attach an image'); return; }
+            const posts = dbGet('posts') || [];
+            const p = { id: 'p' + Date.now(), author: me, text, image: postImageData, createdAt: Date.now(), likes: [], views: 0, comments: [] };
+            posts.unshift(p); dbSet('posts', posts);
+            document.getElementById('postText').value = ''; document.getElementById('attachPreview').innerHTML = 'No image'; postImageData = null;
+            showFloating('Posted'); renderFeed(currentView);
+            // notify followers
+            const users = dbGet('users') || {}; (users[me].followers || []).forEach(fu => addNotification(fu, `${me} posted a new update`));
+        });
+
+        /* render feed (home or following) */
+        let currentView = 'home';
+        function renderFeed(view = 'home') {
+            currentView = view;
+            feedEl.innerHTML = '';
+            let posts = dbGet('posts') || [];
+            posts.sort((a, b) => b.createdAt - a.createdAt);
+            if (view === 'following') {
+                const u = currentUser(); if (!u) { feedEl.innerHTML = '<div class="small">Sign in to see Following feed</div>'; return; }
+                const users = dbGet('users') || {}; const followList = users[u].following || [];
+                posts = posts.filter(p => followList.includes(p.author));
+            }
+            if (posts.length === 0) { feedEl.innerHTML = '<div class="small">No posts yet — be first!</div>'; return; }
+            for (let post of posts) feedEl.appendChild(makePostNode(post));
+        }
+
+        function makePostNode(post) {
+            const node = document.createElement('div'); node.className = 'post';
+            const meta = document.createElement('div'); meta.className = 'meta';
+            const left = document.createElement('div'); left.className = 'left-meta';
+            const av = document.createElement('div'); av.className = 'avatar'; const users = dbGet('users') || {};
+            if (users[post.author] && users[post.author].avatar) av.style.backgroundImage = `url(${users[post.author].avatar})`, av.style.backgroundSize = 'cover';
+            left.appendChild(av);
+            const nameBlock = document.createElement('div'); nameBlock.innerHTML = `<div class="author" data-user="${post.author}">${post.author}</div><div class="bio small">${users[post.author] && users[post.author].bio ? users[post.author].bio : ''}</div>`;
+            left.appendChild(nameBlock);
+            const right = document.createElement('div'); right.innerHTML = `<div class="time">${timeAgo(post.createdAt)}</div>`;
+            meta.appendChild(left); meta.appendChild(right); node.appendChild(meta);
+
+            // click username -> profile
+            nameBlock.querySelector('[data-user]').addEventListener('click', () => openProfilePage(post.author));
+
+            // body & image
+            const body = document.createElement('div'); body.className = 'body'; body.textContent = post.text || ''; node.appendChild(body);
+            if (post.image) { const im = document.createElement('img'); im.src = post.image; node.appendChild(im); }
+
+            // actions
+            const actions = document.createElement('div'); actions.className = 'actions';
+            const likeBtn = document.createElement('button'); likeBtn.className = 'icon-btn'; likeBtn.innerHTML = `❤️ ${post.likes.length}`;
+            if (currentUser() && post.likes.includes(currentUser())) likeBtn.classList.add('liked');
+            likeBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleLike(post.id, likeBtn); });
+            const commentBtn = document.createElement('button'); commentBtn.className = 'icon-btn'; commentBtn.innerHTML = `💬 ${post.comments.length}`;
+            commentBtn.addEventListener('click', (e) => { e.stopPropagation(); openComments(post.id); });
+            const viewBtn = document.createElement('button'); viewBtn.className = 'icon-btn'; viewBtn.innerHTML = `👁️ ${post.views}`;
+            // clicking post opens modal and increments views
+            node.addEventListener('click', () => openPostModal(post.id));
+            actions.appendChild(likeBtn); actions.appendChild(commentBtn); actions.appendChild(viewBtn);
+            node.appendChild(actions);
+
+            // small preview comments
+            if (post.comments && post.comments.length) {
+                const cm = document.createElement('div'); cm.className = 'comments';
+                post.comments.slice(0, 3).forEach(c => { const cn = document.createElement('div'); cn.className = 'comment'; cn.innerHTML = `<div style="font-weight:700">${c.user}</div><div>${c.text}</div>`; cm.appendChild(cn); });
+                node.appendChild(cm);
+            }
+            return node;
+        }
+
+        /* toggle like */
+        function toggleLike(postId, btn) {
+            const me = currentUser(); if (!me) return openAuth();
+            const posts = dbGet('posts') || []; const p = posts.find(x => x.id === postId); if (!p) return;
+            p.likes = p.likes || [];
+            if (p.likes.includes(me)) { p.likes = p.likes.filter(x => x !== me); showFloating('Removed like'); }
+            else { p.likes.push(me); showFloating('Liked'); addNotification(p.author, `${me} liked your post`); if (btn) { btn.classList.add('like-pop'); setTimeout(() => btn.classList.remove('like-pop'), 300); } }
+            dbSet('posts', posts); renderFeed(currentView);
+        }
+
+        /* open post modal (increment views) */
+        function openPostModal(postId) {
+            const posts = dbGet('posts') || []; const p = posts.find(x => x.id === postId); if (!p) return;
+            p.views = (p.views || 0) + 1; dbSet('posts', posts);
+            renderFeed(currentView); showFloating('Opened post');
+            // build modal
+            const modal = document.createElement('div'); modal.style.position = 'fixed'; modal.style.inset = '0'; modal.style.background = 'rgba(0,0,0,0.6)'; modal.style.display = 'flex'; modal.style.alignItems = 'center'; modal.style.justifyContent = 'center'; modal.style.zIndex = 90;
+            const card = document.createElement('div'); card.style.width = '720px'; card.style.maxHeight = '90vh'; card.style.overflow = 'auto'; card.style.background = 'linear-gradient(180deg,#073737,#043333)'; card.style.padding = '16px'; card.style.borderRadius = '12px';
+            const users = dbGet('users') || {};
+            card.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-weight:900">${p.author}</div><div class="small">${timeAgo(p.createdAt)}</div></div><div><button id="closeModal" class="btn">Close</button></div></div>
+    <div style="margin-top:12px">${escapeHtml(p.text || '')}</div>
+    ${p.image ? `<img src="${p.image}" style="margin-top:12px;max-width:100%;border-radius:10px">` : ''}
+    <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+      <button id="likeModal" class="btn">${p.likes.length} ❤️</button>
+      <div class="small">Views: <span id="modalViews">${p.views}</span></div>
+    </div>
+    <div style="margin-top:12px"><div style="font-weight:800">Comments</div><div id="modalComments" style="margin-top:8px"></div>
+    <textarea id="modalCommentText" placeholder="Add comment" style="width:100%;margin-top:8px;padding:8px;border-radius:8px"></textarea>
+    <button id="modalAddComment" class="btn primary" style="width:100%;margin-top:8px">Add comment</button></div>`;
+            modal.appendChild(card); document.body.appendChild(modal);
+            // populate comments
+            function refreshModalComments() { const mc = card.querySelector('#modalComments'); mc.innerHTML = ''; (p.comments || []).forEach(c => { const el = document.createElement('div'); el.className = 'comment'; el.innerHTML = `<div style="font-weight:700">${c.user}</div><div>${c.text}</div>`; mc.appendChild(el); }); }
+            refreshModalComments();
+            card.querySelector('#closeModal').addEventListener('click', () => modal.remove());
+            card.querySelector('#modalAddComment').addEventListener('click', () => {
+                const u = currentUser(); if (!u) return openAuth();
+                const txt = card.querySelector('#modalCommentText').value.trim(); if (!txt) { showFloating('Write a comment'); return; }
+                p.comments = p.comments || []; p.comments.push({ user: u, text: txt, ts: Date.now() });
+                dbSet('posts', posts);
+                addNotification(p.author, `${u} commented on your post`);
+                showFloating('Comment added');
+                refreshModalComments(); card.querySelector('#modalCommentText').value = ''; renderFeed(currentView);
+            });
+            card.querySelector('#likeModal').addEventListener('click', () => { toggleLike(p.id, card.querySelector('#likeModal')); card.querySelector('#modalViews').textContent = (p.views || 0); });
+        }
+
+        /* comments (quick open) */
+        function openComments(postId) {
+            openPostModal(postId);
+        }
+
+        /* open profile page */
+        function openProfilePage(username) {
+            const users = dbGet('users') || {}; if (!users[username]) { showFloating('User not found'); return; }
+            // show profile view in main area
+            const main = document.querySelector('main'); main.scrollIntoView({ behavior: 'smooth' });
+            // build simple profile area replacing center content temporarily
+            const origMain = main.innerHTML;
+            main.innerHTML = '';
+            const card = document.createElement('div'); card.className = 'card';
+            card.innerHTML = `<div class="profile-card"><div class="profile-avatar" id="bigAvatar"></div><div class="profile-info"><div style="font-weight:900">${username}</div><div class="small" id="bigBio">${users[username].bio || '—'}</div><div style="margin-top:8px" class="follow-row"><div class="small">Followers: ${(users[username].followers || []).length}</div><div class="small">Following: ${(users[username].following || []).length}</div></div></div></div>`;
+            const back = document.createElement('div'); back.className = 'card'; back.style.marginTop = '12px'; back.innerHTML = `<button class="btn" id="backBtn">Back to feed</button>`;
+            main.appendChild(card); main.appendChild(back);
+            // show user's posts
+            const postsBlock = document.createElement('div'); postsBlock.className = 'card'; postsBlock.style.marginTop = '12px'; postsBlock.innerHTML = `<div style="font-weight:900">Posts by ${username}</div><div id="userPosts" style="margin-top:10px"></div>`;
+            main.appendChild(postsBlock);
+            const up = postsBlock.querySelector('#userPosts'); const posts = dbGet('posts') || []; const mine = posts.filter(p => p.author === username);
+            if (mine.length === 0) up.innerHTML = '<div class="small">No posts yet</div>'; else mine.forEach(p => up.appendChild(makePostNode(p)));
+            // set avatar
+            const bigAvatar = document.getElementById('bigAvatar'); if (users[username].avatar) bigAvatar.style.backgroundImage = `url(${users[username].avatar})`, bigAvatar.style.backgroundSize = 'cover';
+            document.getElementById('backBtn').addEventListener('click', () => {
+                // restore main area
+                document.querySelector('main').innerHTML = '';
+                // rebuild center UI (compose + feed)
+                rebuildMain();
+                renderFeed(currentView);
+            });
+        }
+
+        /* rebuild center (compose + feed) used after leaving profile view */
+        function rebuildMain() {
+            const main = document.querySelector('main');
+            main.innerHTML = `
+    <section class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="font-weight:900">Create a post</div>
+        <div><button class="btn" id="openNotifications">Notifications</button></div>
+      </div>
+      <div class="compose">
+        <textarea id="postText" placeholder="What's happening? (text + optional image)"></textarea>
+        <div style="width:180px">
+          <label for="postImage" class="btn" style="width:100%">Attach image</label>
+          <input id="postImage" type="file" accept="image/*">
+          <div class="attach-preview" id="attachPreview">No image</div>
+          <div style="margin-top:8px"><button class="btn primary" id="btnPost">Post</button></div>
+        </div>
+      </div>
+    </section>
+    <section class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="font-weight:900">Home feed</div>
+        <div class="small">Public posts • click a post to open</div>
+      </div>
+      <div id="feed" class="feed"></div>
+    </section>
+  `;
+            // re-bind handlers for new elements
+            document.getElementById('postImage').addEventListener('change', (e) => {
+                const f = e.target.files[0]; if (!f) { document.getElementById('attachPreview').innerHTML = 'No image'; postImageData = null; return; }
+                const r = new FileReader(); r.onload = ev => { postImageData = ev.target.result; document.getElementById('attachPreview').innerHTML = `<img src="${postImageData}" style="max-width:100%;max-height:100%;display:block">`; };
+                r.readAsDataURL(f);
+            });
+            document.getElementById('btnPost').addEventListener('click', () => {
+                const me = currentUser(); if (!me) return openAuth();
+                const text = document.getElementById('postText').value.trim();
+                if (!text && !postImageData) { showFloating('Write something or attach an image'); return; }
+                const posts = dbGet('posts') || [];
+                const p = { id: 'p' + Date.now(), author: me, text, image: postImageData, createdAt: Date.now(), likes: [], views: 0, comments: [] };
+                posts.unshift(p); dbSet('posts', posts);
+                document.getElementById('postText').value = ''; document.getElementById('attachPreview').innerHTML = 'No image'; postImageData = null;
+                showFloating('Posted'); renderFeed(currentView);
+                const users = dbGet('users') || {}; (users[me].followers || []).forEach(fu => addNotification(fu, `${me} posted a new update`));
+            });
+            document.getElementById('openNotifications').addEventListener('click', toggleNotifications);
+            // reassign feedEl
+            window.feedEl = document.getElementById('feed');
+        }
+
+        /* notifications panel */
+        function renderNotifications() {
+            notificationsPanel.innerHTML = '<div style="font-weight:900;margin-bottom:8px">Notifications</div>';
+            const u = currentUser(); if (!u) { notificationsPanel.innerHTML += '<div class="small">Sign in to see notifications</div>'; return; }
+            const all = dbGet('notifications') || [];
+            const mine = all.filter(n => n.to === u);
+            if (mine.length === 0) notificationsPanel.innerHTML += '<div class="small">No notifications</div>';
+            mine.forEach(n => { const d = document.createElement('div'); d.className = 'notif'; d.textContent = n.text; notificationsPanel.appendChild(d); });
+        }
+        function toggleNotifications() { notificationsPanel.style.display = notificationsPanel.style.display === 'block' ? 'none' : 'block'; if (notificationsPanel.style.display === 'block') renderNotifications(); }
+
+        /* helpers */
+        function timeAgo(ts) { const s = Math.floor((Date.now() - ts) / 1000); if (s < 60) return s + 's'; if (s < 3600) return Math.floor(s / 60) + 'm'; if (s < 86400) return Math.floor(s / 3600) + 'h'; return Math.floor(s / 86400) + 'd'; }
+        function escapeHtml(s) { if (!s) return ''; return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+        /* nav handlers */
+        document.getElementById('navHome').addEventListener('click', () => { currentView = 'home'; renderFeed('home'); });
+        document.getElementById('navFollowing').addEventListener('click', () => { currentView = 'following'; renderFeed('following'); });
+        document.getElementById('navProfile').addEventListener('click', () => { const u = currentUser(); if (!u) return openAuth(); openProfilePage(u); });
+
+        /* initial render */
+        renderTopActions(); renderPeople(); renderProfileBlock(); renderFeed('home');
+
+        /* convenience: clicking outside notifications closes it */
+        document.addEventListener('click', (e) => { if (notificationsPanel.style.display === 'block' && !notificationsPanel.contains(e.target) && !e.target.closest('#openNotifications')) notificationsPanel.style.display = 'none'; });
+
+        /* expose some functions for debugging */
+        window.openAuth = openAuth;
+        window.openProfilePage = openProfilePage;
+        window.renderFeed = renderFeed;
+
+    </script>
+</body>
+
+</html>
